@@ -9,6 +9,6 @@
 
 #### TODO
 <pre>
-  1. Branch 전략 및 룰 정하기(pix, develop ...etc)
+  1. Branch 전략 및 룰 정하기(fix, develop ...etc)
   2. 코드 작성
 </pre>
