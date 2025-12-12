@@ -31,7 +31,8 @@
 | reservation | 예약 페이지 |
 
 ##### Entity
-<img width="1168" height="698" alt="erd_diagram" src="https://github.com/user-attachments/assets/a5240b26-efb2-410e-ad98-9fa0222e20f2" />
+<img width="749" height="550" alt="erd_diagram" src="https://github.com/user-attachments/assets/509a5fd8-ba50-4eb2-83a1-a84612a86b0b" />
+
 
 // lucid.app
 
