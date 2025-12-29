@@ -162,98 +162,10 @@
 | style | 스타일/포맷팅 |
 | test | 테스트 코드 |
 
+### Q. 반복적인 문자열 비교로 인한 코드 복잡도 문제
+기존 `if-else` 문이 50줄 이상 반복되는 구조에서, 유지보수가 어렵고 가독성이 떨어지는 문제가 있었습니다.
+이를 **Enum과 정규표현식(Regex)을 결합한 구조**로 리팩토링하여 코드를 간결하게 만들고, 새로운 카테고리 추가 시 확장성을 확보했습니다.
 
-### 🗄️ Database ERD
-
-```mermaid
-erDiagram
-    MEMBER ||--o{ AUTHORITY : "assigned"
-    OWNER ||--o{ AUTHORITY : "assigned"
-    
-    OWNER ||--o{ DINER : "manages"
-    OWNER ||--o{ OWNER_REQUEST : "submits"
-    DINER ||--o{ OWNER_REQUEST : "requested"
-    
-    MEMBER ||--o{ BOOK : "reserves"
-    DINER ||--o{ BOOK : "receives"
-    
-    MEMBER ||--o{ REVIEW : "writes"
-    DINER ||--o{ REVIEW : "reviewed_at"
-    BOOK ||--|| REVIEW : "references"
-
-    MEMBER {
-        Long id PK
-        String username UK
-        String password
-        String email UK
-        String name
-        String phone
-    }
-
-    OWNER {
-        Long id PK
-        String username UK
-        String password
-        String name
-        String email
-        String phone
-    }
-
-    DINER {
-        Long id PK
-        Long owner_id FK
-        String dinerName
-        String category
-        String location
-        String tel
-        Double dx "x좌표"
-        Double dy "y좌표"
-        DinerStatus status
-        String businessNum
-    }
-
-    BOOK {
-        Long bookId PK
-        Long member_id FK
-        Long diner_id FK
-        LocalDateTime addDate
-        LocalDateTime bookingDate
-        Integer personnel
-        Boolean success
-    }
-
-    AUTHORITY {
-        Long id PK
-        Long member_id FK
-        Long owner_id FK
-        String authority "Role Name"
-    }
-
-    REVIEW {
-        Long reviewId PK
-        Long memberId FK
-        Long bookId FK
-        Long dinerId FK
-        int rating
-        String comment
-        LocalDateTime createTime
-    }
-
-    OWNER_REQUEST {
-        Long id PK
-        Long owner_id FK
-        Long diner_id FK
-        RequestStatus status
-        LocalDateTime createAt
-    }
-
-    NOTIFICATION {
-        Long id PK
-        Long memberId
-        String message
-        String role
-        boolean isRead
-        LocalDateTime createdAt
-        NotificationType type
-    }
-```
+### Q. 서버 재시작 시 데이터 휘발 문제
+메모리 DB(H2 In-memory) 사용 시 매번 엑셀을 다시 업로드하고 API를 호출해야 하는 비효율이 발생했습니다.
+**H2를 File Mode**로 전환하고 `ddl-auto=update` 설정을 적용하여, 로컬 파일에 데이터를 영구 저장함으로써 개발 효율을 높이고 API 쿼터를 절약했습니다.
