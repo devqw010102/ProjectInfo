@@ -162,5 +162,98 @@
 | style | 스타일/포맷팅 |
 | test | 테스트 코드 |
 
-<img width="1920" height="1040" alt="Spring Initializr - Chrome 25-12-11 오후 12_13_34" src="https://github.com/user-attachments/assets/2906b98f-c8a2-407b-a2f9-91fe73a381e7" />
 
+### 🗄️ Database ERD
+
+```mermaid
+erDiagram
+    MEMBER ||--o{ AUTHORITY : "assigned"
+    OWNER ||--o{ AUTHORITY : "assigned"
+    
+    OWNER ||--o{ DINER : "manages"
+    OWNER ||--o{ OWNER_REQUEST : "submits"
+    DINER ||--o{ OWNER_REQUEST : "requested"
+    
+    MEMBER ||--o{ BOOK : "reserves"
+    DINER ||--o{ BOOK : "receives"
+    
+    MEMBER ||--o{ REVIEW : "writes"
+    DINER ||--o{ REVIEW : "reviewed_at"
+    BOOK ||--|| REVIEW : "references"
+
+    MEMBER {
+        Long id PK
+        String username UK
+        String password
+        String email UK
+        String name
+        String phone
+    }
+
+    OWNER {
+        Long id PK
+        String username UK
+        String password
+        String name
+        String email
+        String phone
+    }
+
+    DINER {
+        Long id PK
+        Long owner_id FK
+        String dinerName
+        String category
+        String location
+        String tel
+        Double dx "x좌표"
+        Double dy "y좌표"
+        DinerStatus status
+        String businessNum
+    }
+
+    BOOK {
+        Long bookId PK
+        Long member_id FK
+        Long diner_id FK
+        LocalDateTime addDate
+        LocalDateTime bookingDate
+        Integer personnel
+        Boolean success
+    }
+
+    AUTHORITY {
+        Long id PK
+        Long member_id FK
+        Long owner_id FK
+        String authority "Role Name"
+    }
+
+    REVIEW {
+        Long reviewId PK
+        Long memberId FK
+        Long bookId FK
+        Long dinerId FK
+        int rating
+        String comment
+        LocalDateTime createTime
+    }
+
+    OWNER_REQUEST {
+        Long id PK
+        Long owner_id FK
+        Long diner_id FK
+        RequestStatus status
+        LocalDateTime createAt
+    }
+
+    NOTIFICATION {
+        Long id PK
+        Long memberId
+        String message
+        String role
+        boolean isRead
+        LocalDateTime createdAt
+        NotificationType type
+    }
+```
